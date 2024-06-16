@@ -19,7 +19,6 @@ import org.bleachhack.gui.window.widget.WindowTextWidget;
 import org.bleachhack.gui.window.widget.WindowWidget;
 import org.bleachhack.util.collections.ImmutablePairList;
 import org.bleachhack.util.io.BleachJsonHelper;
-import org.bleachhack.util.io.BleachOnlineMang;
 
 import com.google.gson.JsonObject;
 
@@ -39,20 +38,6 @@ public class BleachCreditsScreen extends WindowScreen {
 	private WindowScrollbarWidget scrollbar;
 
 	static {
-		BleachOnlineMang.getResourceAsync("credits.json", BodyHandlers.ofString()).thenAccept(st -> {
-			boosterList = new ImmutablePairList<>();
-			JsonObject json = BleachJsonHelper.parseOrNull(st, JsonObject.class);
-
-			if (json != null) {
-				if (json.has("donators") && json.get("donators").isJsonArray()) {
-					json.get("donators").getAsJsonArray().forEach(j -> boosterList.add(new ImmutablePair<>(true, j.getAsString())));
-				}
-
-				if (json.has("boosters") && json.get("boosters").isJsonArray()) {
-					json.get("boosters").getAsJsonArray().forEach(j -> boosterList.add(new ImmutablePair<>(false, j.getAsString())));
-				}
-			}
-		});
 	}
 
 	public BleachCreditsScreen() {
@@ -125,13 +110,13 @@ public class BleachCreditsScreen extends WindowScreen {
 		String[] split = pair.getRight().split("#");
 		return Text.literal(split[0]).styled(s -> s
 				.withColor(color)
-				.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, 
+				.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
 						Text.literal(pair.getRight()).styled(s1 -> s1.withColor(color)))));
 	}
 
 	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
 		this.renderBackground(matrices);
-		
+
 		if (!boostersLoaded && boosterList != null) {
 			int scroll = scrollbar.getPageOffset();
 			init();

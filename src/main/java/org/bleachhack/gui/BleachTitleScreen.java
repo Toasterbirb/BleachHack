@@ -35,9 +35,7 @@ import org.bleachhack.gui.window.widget.WindowButtonWidget;
 import org.bleachhack.gui.window.widget.WindowTextWidget;
 import org.bleachhack.module.mods.UI;
 import org.bleachhack.util.io.BleachFileHelper;
-import org.bleachhack.util.io.BleachOnlineMang;
 
-import java.net.http.HttpResponse.BodyHandlers;
 import java.util.List;
 import java.util.Random;
 
@@ -50,12 +48,14 @@ public class BleachTitleScreen extends WindowScreen {
 	private static int splashTicks;
 
 	static {
-		BleachOnlineMang.getResourceAsync("splashes.txt", BodyHandlers.ofLines()).thenAccept(st -> {
-			if (st != null) {
-				List<String> list = st.toList();
-				splash = list.get(new Random().nextInt(list.size()));
-			}
-		});
+		splash = "Hello world";
+
+		// BleachOnlineMang.getResourceAsync("splashes.txt", BodyHandlers.ofLines()).thenAccept(st -> {
+		// 	if (st != null) {
+		// 		List<String> list = st.toList();
+		// 		splash = list.get(new Random().nextInt(list.size()));
+		// 	}
+		// });
 	}
 
 	public BleachTitleScreen() {

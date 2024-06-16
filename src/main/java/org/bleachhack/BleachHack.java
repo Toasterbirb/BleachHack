@@ -32,7 +32,6 @@ import org.bleachhack.util.Watermark;
 import org.bleachhack.util.io.BleachFileHelper;
 import org.bleachhack.util.io.BleachFileMang;
 import org.bleachhack.util.io.BleachJsonHelper;
-import org.bleachhack.util.io.BleachOnlineMang;
 
 public class BleachHack implements ModInitializer {
 
@@ -77,11 +76,6 @@ public class BleachHack implements ModInitializer {
 
 		BleachFileHelper.readOptions();
 		BleachFileHelper.readFriends();
-
-		if (Option.GENERAL_CHECK_FOR_UPDATES.getValue()) {
-			updateJson = BleachOnlineMang.getResourceAsync("update/" + SharedConstants.getGameVersion().getName().replace(' ', '_') + ".json", BodyHandlers.ofString())
-					.thenApply(s -> BleachJsonHelper.parseOrNull(s, JsonObject.class));
-		}
 
 		JsonElement mainMenu = BleachFileHelper.readMiscSetting("customTitleScreen");
 		if (mainMenu != null && !mainMenu.getAsBoolean()) {

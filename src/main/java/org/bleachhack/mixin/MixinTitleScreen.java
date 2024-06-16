@@ -10,7 +10,6 @@ package org.bleachhack.mixin;
 
 import org.apache.commons.lang3.tuple.Triple;
 import org.bleachhack.BleachHack;
-import org.bleachhack.gui.AccountManagerScreen;
 import org.bleachhack.gui.BleachCreditsScreen;
 import org.bleachhack.gui.BleachOptionsScreen;
 import org.bleachhack.gui.BleachTitleScreen;
@@ -51,11 +50,7 @@ public class MixinTitleScreen extends Screen {
 	@Inject(method = "init()V", at = @At("HEAD"))
 	private void init(CallbackInfo info) {
 		if (firstLoad) {
-			if (Option.GENERAL_SHOW_UPDATE_SCREEN.getValue()) {
-				JsonObject updateJson = BleachHack.getUpdateJson();
-				if (updateJson != null && updateJson.has("version") && updateJson.get("version").getAsInt() > BleachHack.INTVERSION)
-					client.setScreen(new UpdateScreen(null, updateJson));
-			}
+			// Used to show update screen here
 
 			firstLoad = false;
 			return;
@@ -65,7 +60,6 @@ public class MixinTitleScreen extends Screen {
 			MinecraftClient.getInstance().setScreen(
 					new WindowManagerScreen(
 							Triple.of(new BleachTitleScreen(), "BleachHack", new ItemStack(Items.MUSIC_DISC_CAT)),
-							Triple.of(new AccountManagerScreen(), "Accounts", new ItemStack(Items.PAPER)),
 							Triple.of(ModuleClickGuiScreen.INSTANCE, "ClickGui", new ItemStack(Items.TOTEM_OF_UNDYING)),
 							Triple.of(new BleachOptionsScreen(null), "Options", new ItemStack(Items.REDSTONE)),
 							Triple.of(new BleachCreditsScreen(), "Credits", new ItemStack(Items.DRAGON_HEAD))) {
