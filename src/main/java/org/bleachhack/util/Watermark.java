@@ -18,15 +18,15 @@ public class Watermark {
 	private String text2;
 	private int color1;
 	private int color2;
-	
+
 	public Watermark() {
 		reset(true, true);
 	}
 
 	public void reset(boolean strings, boolean colors) {
 		if (strings) {
-			text1 = "Bleach";
-			text2 = "Hack";
+			text1 = "Birb";
+			text2 = "Cheat";
 		}
 
 		if (colors) {
