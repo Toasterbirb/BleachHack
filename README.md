@@ -12,6 +12,11 @@ Obama approved Minecraft utility mod for Fabric 1.18 and 1.19.
 > Website: https://bleachhack.org/  
 > Discord: https://bleachhack.org/discord
 
+## Changes in this fork
+- Add a delay option to the AutoFisher
+- Customize the watermark
+- Get rid of some online features, namely BleachOnlineMang and everything that uses it
+
 ## Showcase
 <details>
  <summary>Images</summary>
