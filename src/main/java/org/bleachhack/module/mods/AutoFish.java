@@ -10,6 +10,7 @@ import org.bleachhack.eventbus.BleachSubscribe;
 import org.bleachhack.module.Module;
 import org.bleachhack.module.ModuleCategory;
 import org.bleachhack.setting.module.SettingMode;
+import org.bleachhack.setting.module.SettingSlider;
 import org.bleachhack.util.InventoryUtils;
 
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -22,10 +23,12 @@ public class AutoFish extends Module {
 
 	private boolean threwRod;
 	private boolean reeledFish;
+	private int lastCast = 0;
 
 	public AutoFish() {
 		super("AutoFish", KEY_UNBOUND, ModuleCategory.PLAYER, "Automatically fishes for you.",
-				new SettingMode("Mode", "Normal", "Aggressive", "Passive").withDesc("AutoFish mode."));
+				new SettingMode("Mode", "Normal", "Aggressive", "Passive").withDesc("AutoFish mode."),
+				new SettingSlider("Delay", 0, 20, 1, 1).withDesc("Casting delay in ticks"));
 	}
 
 	@Override
@@ -55,14 +58,19 @@ public class AutoFish extends Module {
 			}
 		}
 
-		if (!threwRod && mc.player.fishHook == null && getSetting(0).asMode().getMode() != 2) {
+		if (!threwRod && mc.player.fishHook == null && getSetting(0).asMode().getMode() != 2 && lastCast >= getSetting(1).asSlider().getValueInt()) {
 			Hand newHand = getSetting(0).asMode().getMode() == 1 ? InventoryUtils.selectSlot(getBestRodSlot()) : getHandWithRod();
 			if (newHand != null) {
 				// throw again
 				mc.interactionManager.interactItem(mc.player, newHand);
 				threwRod = true;
 				reeledFish = false;
+				lastCast = 0;
 			}
+		}
+		else if (!threwRod && mc.player.fishHook == null)
+		{
+			lastCast++;
 		}
 	}
 
